@@ -1,4 +1,5 @@
 # Project structure
+
 ```text
 Locus/
 ├── apps/

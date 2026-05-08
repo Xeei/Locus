@@ -10,19 +10,19 @@ To make this work, you need a stack that handles heavy geospatial processing on 
 
 ### 1. The Frontend (The Canvas)
 
-* **Map Engine:** Use **Mapbox GL JS** or **MapLibre**. They are highly performant for rendering vector tiles and custom layers.
-* **State Management:** Use **Zustand** or **Redux** to manage the active "drawing" state.
-* **Drawing Tools:** Integrate **Mapbox Draw** or **Terra Draw** to allow users to click and create polygons, points, and lines.
+- **Map Engine:** Use **Mapbox GL JS** or **MapLibre**. They are highly performant for rendering vector tiles and custom layers.
+- **State Management:** Use **Zustand** or **Redux** to manage the active "drawing" state.
+- **Drawing Tools:** Integrate **Mapbox Draw** or **Terra Draw** to allow users to click and create polygons, points, and lines.
 
 ### 2. The Real-Time Layer (The Sync)
 
-* **Communication:** Use **WebSockets** (via Socket.io) to broadcast coordinate changes.
-* **Conflict Resolution:** If two people move a vertex at once, you’ll need a strategy. **CRDTs (Conflict-free Replicated Data Types)** like **Yjs** are excellent for ensuring everyone's map stays in sync without a central "lock."
+- **Communication:** Use **WebSockets** (via Socket.io) to broadcast coordinate changes.
+- **Conflict Resolution:** If two people move a vertex at once, you’ll need a strategy. **CRDTs (Conflict-free Replicated Data Types)** like **Yjs** are excellent for ensuring everyone's map stays in sync without a central "lock."
 
 ### 3. The Backend (The Brain)
 
-* **API:** A **TypeScript/Node.js** or **Go** environment. Go is particularly strong if you plan to do heavy geometry calculations (like finding intersections between thousands of polygons).
-* **Spatial Database:** **PostgreSQL with PostGIS** is the gold standard. It allows you to run queries like: *"Find all markers within this user-drawn polygon."*
+- **API:** A **TypeScript/Node.js** or **Go** environment. Go is particularly strong if you plan to do heavy geometry calculations (like finding intersections between thousands of polygons).
+- **Spatial Database:** **PostgreSQL with PostGIS** is the gold standard. It allows you to run queries like: _"Find all markers within this user-drawn polygon."_
 
 ---
 
@@ -32,19 +32,19 @@ To make this work, you need a stack that handles heavy geospatial processing on 
 
 Allow users to create "Zones." Each zone can have metadata (e.g., "Zone A," "Population: 500").
 
-* **Spatial Logic:** Use **Turf.js** on the frontend for immediate calculations (like area or distance) and **PostGIS** on the backend for permanent storage and complex queries.
+- **Spatial Logic:** Use **Turf.js** on the frontend for immediate calculations (like area or distance) and **PostGIS** on the backend for permanent storage and complex queries.
 
 ### B. Live Presence Indicators
 
 Show where other collaborators are looking.
 
-* **Implementation:** Sync the map's "center" and "zoom" level of other users. You can represent them as small "ghost" cursors or bounding boxes on the map so you know what they are focusing on.
+- **Implementation:** Sync the map's "center" and "zoom" level of other users. You can represent them as small "ghost" cursors or bounding boxes on the map so you know what they are focusing on.
 
 ### C. Layer Versioning & History
 
 Since it's collaborative, someone might accidentally delete a huge boundary.
 
-* **Implementation:** Store geometry changes as a "stack" of snapshots. Allow users to "time travel" back to a previous version of the map.
+- **Implementation:** Store geometry changes as a "stack" of snapshots. Allow users to "time travel" back to a previous version of the map.
 
 ---
 
