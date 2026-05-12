@@ -1,3 +1,6 @@
+
+# Locus
+Locus is the project that will allow people to work with corrabulation with amazing experince in interactive map
 # Project structure
 
 ```text
