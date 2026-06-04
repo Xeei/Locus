@@ -11,6 +11,8 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {return true},
 }
 
+var hub = NewHub()
+
 func Echo(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil) // c: connecttion
 	if err != nil {
@@ -18,7 +20,12 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer c.Close() // aviod leak (garantee clean up)
+	defer func() {
+		hub.Remove(c)
+	 	c.Close() // aviod leak (garantee clean up)
+	}()
+
+	hub.Add(c)
 
 	for {
 		mt, message, err := c.ReadMessage()
@@ -28,10 +35,9 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 		}
 
 		log.Printf("recv: %s", message)
-		err = c.WriteMessage(mt, message)
-		if err != nil {
-			log.Println("write:", err)
-			break
-		}
+		// err = c.WriteMessage(mt, message)
+		hub.Broadcast(c, message)
+		_ = mt
+
 	}
 }

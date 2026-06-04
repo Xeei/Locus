@@ -2,13 +2,21 @@ package main
 
 import (
 	"locus/api/ws"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 
 
 func main() {
 
-	http.HandleFunc("/ws", ws.Echo)
-	http.ListenAndServe(":8000", nil)
+
+	r := gin.Default()
+
+	r.GET("/ws", func(ctx *gin.Context) {
+		ws.Echo(ctx.Writer, ctx.Request)
+	})
+
+
+	r.Run(":8000")
 }

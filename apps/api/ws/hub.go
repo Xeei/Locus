@@ -35,7 +35,7 @@ func (h *Hub) Broadcast(sender *websocket.Conn, msg []byte) {
 
 	for conn := range h.clients {
 		if conn != sender {
-			conn.WriteMessage(1, msg)
+			conn.WriteMessage(websocket.TextMessage, msg) // 1 mean text
 		}
 	}
 }
