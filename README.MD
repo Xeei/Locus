@@ -1,10 +1,9 @@
 # Locus
 This is project about making real time collaburation interactive map
 
-# How to run web socket
+# How to start development
 ```bash
-cd apps/websocket
-bun run dev
+bun run --filter '*' dev
 ```
 
 ## Source
