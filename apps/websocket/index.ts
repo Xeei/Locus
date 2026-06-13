@@ -3,6 +3,7 @@ import { createServer } from "http";
 import {pinoHttp} from "pino-http";
 import { Server } from "socket.io";
 import { logger } from "./libs/logger";
+import type { CursorPulse } from "@locus/shared";
 
 const app = express();
 app.use(pinoHttp({logger}))
@@ -23,8 +24,13 @@ io.on("connection", (socket) => {
 
 	socket.emit("message", "Welcome to Locus Websocket "+socket.id)
 
-	// TODO: Learn how to make best pratice handle event in socket.io to be able to scale up the system
+	// TODO: Learn how to make best practice handle event in socket.io to be able to scale up the system
 	// TODO: Make handle event for sending coordinate of cursor
+
+	// handle "cursor:move" for connector that connected
+	socket.on("cursor:move", (arg: CursorPulse) => {
+		console.log(arg.coordinate)
+	})
 });
 logger.info("Application start on port: "+ process.env.PORT + " http://localhost:"+process.env.PORT)
 httpServer.listen(process.env.PORT);
